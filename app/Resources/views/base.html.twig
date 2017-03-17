@@ -2,12 +2,12 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Dab Clicker{% endblock %}</title>
+        <script src={{ asset('dabScript.js') }}></script> 
         {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <footer> {% block footer %} Projet créé par Bastien Masson et Corentin Lévy pour l'université Paris Diderot {% endblock %} </footer>
     </body>
 </html>
