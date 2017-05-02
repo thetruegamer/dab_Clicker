@@ -15,18 +15,23 @@ class SelectCharType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
+        // $builder->add('name', EntityType::class, array(
+        //     'label' => 'Personnages:',
+        //     'class' => 'AppBundle:Characters',
+        //     'choice_label' => 'name',
+        //     'expanded' => false,
+        //     'query_builder' => function (EntityRepository $er) use($options) {
+        //         return $er->createQueryBuilder('c')
+        //                 ->where('c.user = :id_user')
+        //                 ->setParameter('id_user', $options['id'])
+        //                 ->orderBy('c.name', 'ASC')
+        //         ;
+        //     }));
+
         $builder->add('active_char', EntityType::class, array(
-            'label' => 'Personnages:',
             'class' => 'AppBundle:Characters',
-            'choice_label' => 'name',
-            'expanded' => false,
-            'query_builder' => function (EntityRepository $er) use($options) {
-                return $er->createQueryBuilder('c')
-                        ->where('c.user = :id_user')
-                        ->setParameter('id_user', $options['id'])
-                        ->orderBy('c.name', 'ASC')
-                ;
-            }));
+            'choices' => $options['characters']
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -35,5 +40,6 @@ class SelectCharType extends AbstractType
             'data_class' => User::class,
         ));
         $resolver->setRequired('id');
+        $resolver->setRequired('characters');
     }
 }

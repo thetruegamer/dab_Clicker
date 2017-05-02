@@ -18,23 +18,25 @@ class SelectCharController extends Controller
     {
         $userLoggedIn = $this->container->get('security.token_storage')->getToken()->getUser();
         $id = $userLoggedIn->getId();
-        
-        $char = new Characters();
+        $userLoggedIn->setPlainPassword("osef");
+        // dump($userLoggedIn);
+        $characters = $this->getDoctrine()->getRepository('AppBundle:Characters')->findBy(['user'=>$userLoggedIn]);
 
         $form = $this->createForm(SelectCharType::class, $userLoggedIn, array(
-            'id' => $id
+            'id' => $id,
+            'characters' => $characters
         ));
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
-            dump($form->getData());
-            // 4) save the activeChar in User
+            // 4) save the activeChar in the logged in user
             $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            // $userLoggedIn
-            $em->flush();
-
+            $em->persist($characters);
+            var_dump($em->persist($userLoggedIn));
+            var_dump($em->flush());
+            die;
+            // dump($form);
             return $this->redirectToRoute('character_selection');
         }
 
