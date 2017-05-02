@@ -14,7 +14,7 @@ class SelectCharType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
+        // vieille version du form, fonctionne aussi mais c'est plus classe l'autre manière quand même :p
         // $builder->add('name', EntityType::class, array(
         //     'label' => 'Personnages:',
         //     'class' => 'AppBundle:Characters',
@@ -39,7 +39,6 @@ class SelectCharType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => User::class,
         ));
-        $resolver->setRequired('id');
         $resolver->setRequired('characters');
     }
 }

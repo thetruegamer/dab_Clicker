@@ -23,7 +23,6 @@ class SelectCharController extends Controller
         $characters = $this->getDoctrine()->getRepository('AppBundle:Characters')->findBy(['user'=>$userLoggedIn]);
 
         $form = $this->createForm(SelectCharType::class, $userLoggedIn, array(
-            'id' => $id,
             'characters' => $characters
         ));
 
@@ -32,7 +31,7 @@ class SelectCharController extends Controller
         {
             // 4) save the activeChar in the logged in user
             $em = $this->getDoctrine()->getManager();
-            $em->persist($characters);
+            $em->persist($userLoggedIn->getActiveChar());
             var_dump($em->persist($userLoggedIn));
             var_dump($em->flush());
             die;
