@@ -15,7 +15,7 @@ class CharacterController extends Controller
     public function createCharacterAction(Request $request)
     {
         // pour associer l'id d'utilisateur à un perso, on a besoin de l'user
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        $userLoggedIn = $this->container->get('security.token_storage')->getToken()->getUser();
 
         // 1) build the form
         $character = new Characters();
@@ -27,7 +27,7 @@ class CharacterController extends Controller
         {
             $em = $this->getDoctrine()->getManager();
             $em->persist($character);
-            $character->setUser($user);
+            $character->setUser($userLoggedIn);
             $em->flush();
 
             // à changer par "jeu" quand la page sera là

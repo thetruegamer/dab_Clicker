@@ -17,25 +17,41 @@ class SelectCharController extends Controller
     public function selectCharacterAction(Request $request)
     {
         $userLoggedIn = $this->container->get('security.token_storage')->getToken()->getUser();
-        $id = $userLoggedIn->getId();
-        $userLoggedIn->setPlainPassword("osef");
-        // dump($userLoggedIn);
+
+        // as the string says it, I have an error if PlainPassword == null so let's set it.
+        $userLoggedIn->setPlainPassword("dumb value to prevent having errors");
+        
+        // this dump prints an active_char A
+        dump($userLoggedIn);
+
+        // fetch the array of characters associated to the logged in user
         $characters = $this->getDoctrine()->getRepository('AppBundle:Characters')->findBy(['user'=>$userLoggedIn]);
 
+        // create and handle the form
         $form = $this->createForm(SelectCharType::class, $userLoggedIn, array(
             'characters' => $characters
         ));
-
         $form->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid())
         {
-            // 4) save the activeChar in the logged in user
+            // this dump shows that $userLoggedIn has an active_char B, with B != A
+            dump($userLoggedIn);
+
+            // $form->getData() == $userLoggedIn, as planned
+            // dump($form->getData());
+         
             $em = $this->getDoctrine()->getManager();
-            $em->persist($userLoggedIn->getActiveChar());
-            var_dump($em->persist($userLoggedIn));
-            var_dump($em->flush());
-            die;
-            // dump($form);
+
+            // those 3 lines didn't change anything
+            $charSelected = $userLoggedIn->getActiveChar();
+            $em->persist($charSelected);
+            $charSelected->setUser($userLoggedIn);
+
+            // those 2 lines don't affect $userLoggedIn as expected...
+            $em->persist($userLoggedIn);
+            $em->flush();
+    
             return $this->redirectToRoute('character_selection');
         }
 
