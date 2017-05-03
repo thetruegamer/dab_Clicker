@@ -29,7 +29,7 @@ class CharacterController extends Controller
             $em->persist($character);
             $character->setUser($userLoggedIn);
             $em->flush();
-
+            
             // à changer par "jeu" quand la page sera là
             return $this->redirectToRoute('homepage');
         }

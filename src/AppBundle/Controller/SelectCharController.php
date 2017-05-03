@@ -21,7 +21,7 @@ class SelectCharController extends Controller
         // as the string says it, I have an error if PlainPassword == null so let's set it.
         $userLoggedIn->setPlainPassword("dumb value to prevent having errors");
         
-        // this dump prints an active_char A
+        // this dump shows that $userLoggedIn has an active_char A
         dump($userLoggedIn);
 
         // fetch the array of characters associated to the logged in user
@@ -35,7 +35,7 @@ class SelectCharController extends Controller
         
         if ($form->isSubmitted() && $form->isValid())
         {
-            // this dump shows that $userLoggedIn has an active_char B, with B != A
+            // this dump shows that $userLoggedIn now has an active_char B, with B != A
             dump($userLoggedIn);
 
             // $form->getData() == $userLoggedIn, as planned

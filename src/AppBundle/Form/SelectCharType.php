@@ -14,7 +14,13 @@ class SelectCharType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // vieille version du form, fonctionne aussi mais c'est plus classe l'autre manière quand même :p
+        // pretty self explanatory, we affect active_char with a Characters
+        $builder->add('active_char', EntityType::class, array(
+            'class' => 'AppBundle:Characters',
+            'choices' => $options['characters']
+            ));
+
+        // old form version, messier than the actual one, hence the commenting
         // $builder->add('name', EntityType::class, array(
         //     'label' => 'Personnages:',
         //     'class' => 'AppBundle:Characters',
@@ -27,11 +33,6 @@ class SelectCharType extends AbstractType
         //                 ->orderBy('c.name', 'ASC')
         //         ;
         //     }));
-
-        $builder->add('active_char', EntityType::class, array(
-            'class' => 'AppBundle:Characters',
-            'choices' => $options['characters']
-            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)
