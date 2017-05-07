@@ -25,8 +25,7 @@ class Characters
     /**
      * @var int
      *
-     * Many Characters have One User.
-     * @ORM\OneToOne(targetEntity="User", inversedBy="active_char")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      */
     private $user;
@@ -60,11 +59,9 @@ class Characters
     private $massons;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="time_connected", type="integer")
+     * @ORM\Column(type="datetime")
      */
-    private $time_connected;
+    private $createdAt;
 
     /**
      * @var boolean
@@ -89,7 +86,7 @@ class Characters
     {
         // $this->is_active = false;
         $this->dabs = 0;
-        $this->time_connected = 0;
+        $this->createdAt = new \DateTime();
         $this->double_dabs = 0;
         $this->massons = 0;
         $this->messages = "";
@@ -177,29 +174,6 @@ class Characters
         return $this->massons;
     }
 
-    /**
-     * Set timeConnected
-     *
-     * @param integer $timeConnected
-     *
-     * @return Characters
-     */
-    public function setTimeConnected($timeConnected)
-    {
-        $this->timeConnected = $timeConnected;
-
-        return $this;
-    }
-
-    /**
-     * Get timeConnected
-     *
-     * @return int
-     */
-    public function getTimeConnected()
-    {
-        return $this->timeConnected;
-    }
 
     /**
      * Set messages
@@ -280,5 +254,29 @@ class Characters
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Characters
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }

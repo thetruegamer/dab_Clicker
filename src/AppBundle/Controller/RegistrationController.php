@@ -24,6 +24,22 @@ class RegistrationController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
+            //  // $file stores the uploaded PDF file
+            // /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            // $file = $user->getAvatar();
+
+            // // Generate a unique name for the file before saving it
+            // $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+            // // Move the file to the directory where avatars are stored
+            // $file->move(
+            //     $this->getParameter('avatar_repertoire'),
+            //     $fileName
+            // );
+
+            // // Update the 'avatar' property to store the PDF file name
+            // // instead of its contents
+            // $user->setAvatar($fileName);
 
             // 3) Encode the password (you could also do this via Doctrine listener)
             $password = $this->get('security.password_encoder')
@@ -35,7 +51,7 @@ class RegistrationController extends Controller
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render(

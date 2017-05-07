@@ -20,9 +20,6 @@ class SelectCharController extends Controller
 
         // as the string says it, I have an error if PlainPassword == null so let's set it.
         $userLoggedIn->setPlainPassword("dumb value to prevent having errors");
-        
-        // this dump shows that $userLoggedIn has an active_char A
-        dump($userLoggedIn);
 
         // fetch the array of characters associated to the logged in user
         $characters = $this->getDoctrine()->getRepository('AppBundle:Characters')->findBy(['user'=>$userLoggedIn]);
@@ -33,26 +30,17 @@ class SelectCharController extends Controller
         ));
         $form->handleRequest($request);
         
+        dump($userLoggedIn);
+        
         if ($form->isSubmitted() && $form->isValid())
         {
-            // this dump shows that $userLoggedIn now has an active_char B, with B != A
-            dump($userLoggedIn);
-
-            // $form->getData() == $userLoggedIn, as planned
-            // dump($form->getData());
-         
             $em = $this->getDoctrine()->getManager();
 
-            // those 3 lines didn't change anything
-            $charSelected = $userLoggedIn->getActiveChar();
-            $em->persist($charSelected);
-            $charSelected->setUser($userLoggedIn);
-
-            // those 2 lines don't affect $userLoggedIn as expected...
             $em->persist($userLoggedIn);
             $em->flush();
     
-            return $this->redirectToRoute('character_selection');
+            return $this->redirectToRoute('homepage');
+            // return $this->redirectToRoute('play');
         }
 
         return $this->render(

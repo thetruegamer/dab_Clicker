@@ -25,8 +25,7 @@ class Characters
     /**
      * @var int
      *
-     * Many Characters have One User.
-     * @ORM\OneToOne(targetEntity="User", inversedBy="active_char")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      */
     private $user;
@@ -60,11 +59,9 @@ class Characters
     private $massons;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="time_connected", type="integer")
+     * @ORM\Column(type="datetime")
      */
-    private $time_connected;
+    private $createdAt;
 
     /**
      * @var boolean
@@ -89,7 +86,7 @@ class Characters
     {
         // $this->is_active = false;
         $this->dabs = 0;
-        $this->time_connected = 0;
+        $this->createdAt = new \DateTime();
         $this->double_dabs = 0;
         $this->massons = 0;
         $this->messages = "";
@@ -259,8 +256,6 @@ class Characters
     public function setUser(\AppBundle\Entity\User $user = null)
     {
         $this->user = $user;
-        $user->addCharacter($this);
-
         return $this;
     }
 
@@ -274,8 +269,13 @@ class Characters
         return $this->user;
     }
 
+    /**
+     * to String
+     *
+     * @return string
+     */
     public function __toString()
     {
-        return $this->name;
+        return (string) $this->name;
     }
 }

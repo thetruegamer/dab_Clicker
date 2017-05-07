@@ -38,9 +38,17 @@ class User implements UserInterface, \Serializable
     private $username;
     
     /**
-     * @ORM\OneToOne(targetEntity="Characters", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="Characters", cascade={"persist"})
      */
     private $active_char;
+
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank(message="Please, upload an avatar as a jpg file.")
+     * @Assert\File(mimeTypes={ "image/jpg", "image/gif", "image/png", "image/jpeg" })
+     */
+    private $avatar;
 
     /**
      * @Assert\NotBlank()
@@ -206,5 +214,29 @@ class User implements UserInterface, \Serializable
     public function getActiveChar()
     {
         return $this->active_char;
+    }
+
+    /**
+     * Set avatar
+     *
+     * @param string $avatar
+     *
+     * @return User
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get avatar
+     *
+     * @return string
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
     }
 }
