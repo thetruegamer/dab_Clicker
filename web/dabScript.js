@@ -1,9 +1,4 @@
-// la monnaie du jeu : le dab
-var dabs = 0;
-// le nombre de dabs gagnés quand on clique : 1 au début, peut changer selon les upgrades
-var dab_inc = 1;
-
-function clickToDab()
+function clickToDab(dab_inc)
 {
 	addDabs(dab_inc);
 	
@@ -20,6 +15,7 @@ function clickToDab()
 
 function addDabs(n)
 {
+	dabs = parseInt(document.getElementById('dab_number').innerHTML); 
 	dabs += n;
 	document.getElementById('dab_number').innerHTML = dabs;
 };

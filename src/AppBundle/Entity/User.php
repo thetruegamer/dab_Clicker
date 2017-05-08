@@ -46,7 +46,6 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string")
      *
      * @Assert\NotBlank(message="Please, upload an avatar as a jpg file.")
-     * @Assert\File(mimeTypes={ "image/jpg", "image/gif", "image/png", "image/jpeg" })
      */
     private $avatar;
 

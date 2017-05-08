@@ -47,9 +47,30 @@ class Characters
     /**
      * @var int
      *
-     * @ORM\Column(name="double_dabs", type="integer")
+     * @ORM\Column(name="dank_memes", type="integer")
      */
-    private $double_dabs;
+    private $dank_memes;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="dab_inc", type="integer")
+     */
+    private $dab_inc;
+
+     /**
+     * @var int
+     *
+     * @ORM\Column(name="cost", type="integer")
+     */
+    private $cost;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="used_massons", type="integer")
+     */
+    private $used_massons;
 
     /**
      * @var int
@@ -62,13 +83,6 @@ class Characters
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_active", type="boolean")
-     */
-    // private $is_active;
 
     /**
      * @var string
@@ -84,12 +98,69 @@ class Characters
     // on rentre les valeurs par défaut : toutes à 0 lors de la création d'un perso
     public function setCreatedAtValue()
     {
-        // $this->is_active = false;
         $this->dabs = 0;
+        $this->dab_inc = 1;
+        $this->dank_memes = 0;
+        $this->cost = 10;
         $this->createdAt = new \DateTime();
-        $this->double_dabs = 0;
-        $this->massons = 0;
+        $this->massons = 10;
+        $this->used_massons = 0;
         $this->messages = "";
+    }
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function calculateMassons()
+    {
+        $actualDate = time();
+        $maxMassonsPossible = ($actualDate - $this->createdAt->getTimestamp())/3600;
+
+        $actualMassons = $maxMassonsPossible - $this->used_massons + $this->massons;
+
+        return (int) $actualMassons;
+    }
+
+
+    // fonction similaire à un setUsedMassons(used_massons+1) mais pour la clarté c'est sympa
+    public function useOneMasson()
+    {
+        $this->used_massons += 1;
+    }
+
+    // le prix des dank memes augmente de façon random décidée par moi, j'ai pas fait d'UE théorie des jeux, déso pas déso
+    public function calculateCost()
+    {
+        $this->cost += $this->cost*2;
+    }
+
+    // petite fontion booléenne qui renvoie true si on peut acheter, false sinon
+    function canBuy()
+    {
+        if ($this->cost > $this->dabs)
+            return false;
+        else if ($this->calculateMassons() > 0)
+            return true;
+        else
+            return false;
+    }
+
+    // idem pour là, c'est plus du sucre syntaxique qu'un truc vraiment nécéssaire
+    public function buyOneDankMeme()
+    {
+        $this->dank_memes += 1;
+        $this->dabs = $this->dabs - $this->cost;
+        $this->used_massons += 1;
+        $this->updateInc();
+        $this->calculateCost();
+    }
+
+    public function updateInc()
+    {
+        $this->dab_inc = $this->dab_inc + (2*$this->dank_memes);
     }
 
     /**
@@ -126,30 +197,7 @@ class Characters
         return $this->dabs;
     }
 
-    /**
-     * Set doubleDabs
-     *
-     * @param integer $doubleDabs
-     *
-     * @return Characters
-     */
-    public function setDoubleDabs($doubleDabs)
-    {
-        $this->doubleDabs = $doubleDabs;
-
-        return $this;
-    }
-
-    /**
-     * Get doubleDabs
-     *
-     * @return int
-     */
-    public function getDoubleDabs()
-    {
-        return $this->doubleDabs;
-    }
-
+    
     /**
      * Set massons
      *
@@ -278,5 +326,102 @@ class Characters
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+
+    /**
+     * Set usedMassons
+     *
+     * @param integer $usedMassons
+     *
+     * @return Characters
+     */
+    public function setUsedMassons($usedMassons)
+    {
+        $this->used_massons = $usedMassons;
+
+        return $this;
+    }
+
+    /**
+     * Get usedMassons
+     *
+     * @return integer
+     */
+    public function getUsedMassons()
+    {
+        return $this->used_massons;
+    }
+
+    /**
+     * Set dankMemes
+     *
+     * @param integer $dankMemes
+     *
+     * @return Characters
+     */
+    public function setDankMemes($dankMemes)
+    {
+        $this->dank_memes = $dankMemes;
+
+        return $this;
+    }
+
+    /**
+     * Get dankMemes
+     *
+     * @return integer
+     */
+    public function getDankMemes()
+    {
+        return $this->dank_memes;
+    }
+
+    /**
+     * Set dabInc
+     *
+     * @param integer $dabInc
+     *
+     * @return Characters
+     */
+    public function setDabInc($dabInc)
+    {
+        $this->dab_inc = $dabInc;
+
+        return $this;
+    }
+
+    /**
+     * Get dabInc
+     *
+     * @return integer
+     */
+    public function getDabInc()
+    {
+        return $this->dab_inc;
+    }
+
+    /**
+     * Set cost
+     *
+     * @param integer $cost
+     *
+     * @return Characters
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+
+        return $this;
+    }
+
+    /**
+     * Get cost
+     *
+     * @return integer
+     */
+    public function getCost()
+    {
+        return $this->cost;
     }
 }

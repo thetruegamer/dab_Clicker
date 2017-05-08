@@ -30,8 +30,7 @@ class CharacterController extends Controller
             $character->setUser($userLoggedIn);
             $em->flush();
             
-            // à changer par "jeu" quand la page sera là
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('character_selection');
         }
 
         return $this->render(

@@ -29,9 +29,7 @@ class SelectCharController extends Controller
             'characters' => $characters
         ));
         $form->handleRequest($request);
-        
-        dump($userLoggedIn);
-        
+                
         if ($form->isSubmitted() && $form->isValid())
         {
             $em = $this->getDoctrine()->getManager();
@@ -39,8 +37,7 @@ class SelectCharController extends Controller
             $em->persist($userLoggedIn);
             $em->flush();
     
-            return $this->redirectToRoute('homepage');
-            // return $this->redirectToRoute('play');
+            return $this->redirectToRoute('play');
         }
 
         return $this->render(
