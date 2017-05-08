@@ -6,11 +6,11 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('login') }}" method="post">
-        <label for="username">Username:</label>
+    <form action="{{ path('homepage') }}" method="post">
+        <label for="username">Mail / nom d'utilisateur:</label>
         <input type="text" id="username" name="_username" value="{{ last_username }}" />
 
-        <label for="password">Password:</label>
+        <label for="password">Mot de passe:</label>
         <input type="password" id="password" name="_password" />
 
         {#
@@ -19,7 +19,9 @@
             <input type="hidden" name="_target_path" value="/account" />
         #}
 
-        <button type="submit">login</button>
+        <button type="submit">Connexion</button>
     </form>
+
+    <a href="/register"> Inscription </a>
 
 {% endblock %}

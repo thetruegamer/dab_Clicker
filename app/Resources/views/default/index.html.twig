@@ -1,7 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <button id="dabber" onClick="clickToDab()"> &lt; o / </button>
+    <script>
+    	window.setInterval(function()
+    	{
+    		var text = "";
+    		var textBuy = "";
+	    	var dabs = parseInt(document.getElementById('dab_number').innerHTML);
+	    	var url = '{{ path("save", {'dabs': 'nbDabs' }) }}';
+	    	url = url.replace("nbDabs", dabs);
+	    	var urlBuy = url.replace("save", "buy");
+	    	text += '<a href='+ url + '> Sauvegarder</a>';
+	    	textBuy += '<a href='+ urlBuy + '> Acheter un dank meme ({{ cost }} dabs)</a>';
+	    	document.getElementById("save").innerHTML = text;
+	    	document.getElementById("buy").innerHTML = textBuy;
+    	}, 1000)
+    </script>
 
-    <span id="dab_number"> </span>
+    <button id="dabber" onClick="clickToDab({{ dab_inc }})"> &lt; o / </button> 
+
+    <p>Vous avez <span id="dab_number">{{ dabs }}</span> dabs</p>
+
+    <p> Vous avez très précisément {{ massons }} massons bravo à vous (vous en gagnez un par heure)</p>
+
+    <p> Vous possedez {{ dank_meme }} dank memes LIT AF FAM</p>
+    <p> Un clic vous rapporte {{ dab_inc }} dabs </p>
+
+    <p id="save"></p>
+
+    <p id="buy"></p>
+
 {% endblock %}
